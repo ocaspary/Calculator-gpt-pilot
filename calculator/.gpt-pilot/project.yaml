@@ -1,0 +1,46 @@
+name: calculator
+description: create a calculator that can do main 4 math functions
+user_stories: null
+architecture:
+- Node.js
+- Express
+- Bootstrap
+- HTML
+- CSS3
+- jQuery
+development_plan:
+- description: Initialize a Node.js project with Express framework and set up an Express server to run on a pre-specified
+    port. Include a basic root route that sends a response indicating the server is live.
+  programmatic_goal: When the server is running, navigating to '/' should display a message 'Calculator Server is running'.
+    The port should be configurable through an environment variable, defaulting to 3000 if not provided.
+  user_review_goal: Confirm that accessing the root URL of the application in a web browser shows a message indicating the
+    server is operational.
+- description: Implement the front end using Bootstrap, HTML, and CSS3 to create an interface for the calculator with buttons
+    for digits 0-9, operators for addition, subtraction, multiplication, and division, and an equals button for computing
+    the result.
+  programmatic_goal: The HTML should include all the calculator buttons and use Bootstrap classes to arrange them into a grid
+    layout, with separate classes for number and operator buttons. CSS3 should be used to apply additional styling where Bootstrap
+    defaults are insufficient.
+  user_review_goal: Visually check that the calculator's interface appears correctly with all necessary buttons in a user-friendly
+    layout.
+- description: Create jQuery scripts enabling the calculator's buttons to update a display field on the user interface with
+    the user's input, including numbers and selected operations.
+  programmatic_goal: Clicking on the calculator buttons should result in the corresponding number or operator appearing in
+    a designated display area on the page. The UI should handle input correctly, allowing for multiple digit numbers and one
+    operator at a time between numbers.
+  user_review_goal: Physically test the buttons on the calculator to ensure each one updates the display field correctly with
+    the input value.
+- description: Develop the logic for the calculator's backend in Node.js to handle HTTP POST requests with calculations to
+    perform and return the result.
+  programmatic_goal: A POST endpoint at '/calculate' should accept JSON objects representing the calculation, perform the
+    appropriate arithmetic operation, and return a JSON object containing the result. It must handle addition, subtraction,
+    multiplication, and division.
+  user_review_goal: When performing calculations using the calculator UI, verify that pressing the equals button displays
+    the correct calculation result on the interface.
+- description: Integrate the frontend with the backend such that clicking the equals button on the UI sends a request to the
+    backend, calculates the result, and displays the result on the UI.
+  programmatic_goal: Pressing the equals button on the UI should trigger a jQuery AJAX call to the Node.js backend POST endpoint
+    '/calculate', sending the user's calculation, and upon receiving the response, it should update the display area with
+    the calculation result.
+  user_review_goal: Perform several calculations using the calculator UI, ensuring that after pressing the equals button,
+    the UI reflects the correct result of the computation.

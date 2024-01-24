@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-center mt-4">Calculator</h2>
+    <div id="calculator" class="calculator">
+      <input type="text" id="display" class="calculator-screen" disabled>
+      <div class="calculator-keys">
+        <div class="calculator-row">
+          <button type="button" class="btn btn-info" value="7">7</button>
+          <button type="button" class="btn btn-info" value="8">8</button>
+          <button type="button" class="btn btn-info" value="9">9</button>
+          <button type="button" class="btn btn-warning" value="/">&divide;</button> <!-- Division moved up -->
+        </div>
+        <div class="calculator-row">
+          <button type="button" class="btn btn-info" value="4">4</button>
+          <button type="button" class="btn btn-info" value="5">5</button>
+          <button type="button" class="btn btn-info" value="6">6</button>
+          <button type="button" class="btn btn-warning" value="*">&times;</button> <!-- Multiplication moved up -->
+        </div>
+        <div class="calculator-row">
+          <button type="button" class="btn btn-info" value="1">1</button>
+          <button type="button" class="btn btn-info" value="2">2</button>
+          <button type="button" class="btn btn-info" value="3">3</button>
+          <button type="button" class="btn btn-warning" value="-">-</button> <!-- Subtraction moved up -->
+        </div>
+        <div class="calculator-row">
+          <button type="button" class="btn btn-info btn-block" value="0">0</button>
+          <button type="button" class="btn btn-info" value="C">C</button>
+          <button type="button" class="btn btn-danger" value="=">=</button>
+          <button type="button" class="btn btn-warning" value="+">+</button> <!-- Addition moved up -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

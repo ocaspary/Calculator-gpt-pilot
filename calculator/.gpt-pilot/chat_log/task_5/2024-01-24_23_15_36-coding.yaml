@@ -1,0 +1,100 @@
+endpoint: OPENAI
+model: gpt-4-1106-preview
+messages:
+- role: system
+  content: You are technical writer and as such, you excel in clear, concise communication, skillfully breaking down complex
+    technical concepts for a variety of audiences. Your proficiency in research and attention to detail ensures accuracy and
+    consistency in your work. You adeptly organize complex information in a user-friendly manner, understanding and anticipating
+    the needs of your audience. Your collaborative skills enhance your ability to work effectively with diverse teams. In
+    your role, you not only create documentation but also efficiently manage documentation projects, always prioritizing clarity
+    and usefulness for the end-user.
+- role: user
+  content: "You are working on a App called \"calculator\" and you need to create a detailed documentation for current state\
+    \ of project. Your first task is to create README.md file.\n\nHere is a high level description of \"calculator\":\n```\n\
+    create a calculator that can do main 4 math functions\n```\n\n\nHere are the technologies that you need to use for this\
+    \ project:\n```\n\n- Node.js\n\n- Express\n\n- Bootstrap\n\n- HTML\n\n- CSS3\n\n- jQuery\n\n```\n\n\n\nHere are files\
+    \ that are currently implemented:\n\n**/package.json**\n```\n{\n  \"name\": \"calculator\",\n  \"version\": \"1.0.0\"\
+    ,\n  \"description\": \"\",\n  \"main\": \"index.js\",\n  \"directories\": {\n    \"test\": \"tests\"\n  },\n  \"scripts\"\
+    : {\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\"\n  },\n  \"keywords\": [],\n  \"author\": \"\"\
+    ,\n  \"license\": \"ISC\",\n  \"dependencies\": {\n    \"express\": \"^4.18.2\",\n    \"mathjs\": \"^12.3.0\"\n  }\n}\n\
+    \n```\n\n**/index.js**\n```\nconst express = require('express');\nconst math = require('mathjs');\nconst app = express();\n\
+    const PORT = process.env.PORT || 3000;\n\napp.use(express.static('public'));\napp.use(express.json());\n\napp.post('/calculate',\
+    \ (req, res) => {\n  const { expression } = req.body;\n  try {\n    const result = math.evaluate(expression);\n    res.send({\
+    \ result: result.toString() });\n  } catch (error) {\n    res.status(500).send({ error: 'Error evaluating the expression'\
+    \ });\n  }\n});\n\napp.listen(PORT, () => {\n  console.log(`Server running on port ${PORT}`);\n});\n```\n\n**public/index.html**\n\
+    ```\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Calculator</title>\n  <link rel=\"\
+    stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\">\n  <link rel=\"stylesheet\"\
+    \ href=\"styles.css\">\n</head>\n<body>\n  <div class=\"container\">\n    <h2 class=\"text-center mt-4\">Calculator</h2>\n\
+    \    <div id=\"calculator\" class=\"calculator\">\n      <input type=\"text\" id=\"display\" class=\"calculator-screen\"\
+    \ disabled>\n      <div class=\"calculator-keys\">\n        <div class=\"calculator-row\">\n          <button type=\"\
+    button\" class=\"btn btn-info\" value=\"7\">7</button>\n          <button type=\"button\" class=\"btn btn-info\" value=\"\
+    8\">8</button>\n          <button type=\"button\" class=\"btn btn-info\" value=\"9\">9</button>\n          <button type=\"\
+    button\" class=\"btn btn-warning\" value=\"/\">&divide;</button> <!-- Division moved up -->\n        </div>\n        <div\
+    \ class=\"calculator-row\">\n          <button type=\"button\" class=\"btn btn-info\" value=\"4\">4</button>\n       \
+    \   <button type=\"button\" class=\"btn btn-info\" value=\"5\">5</button>\n          <button type=\"button\" class=\"\
+    btn btn-info\" value=\"6\">6</button>\n          <button type=\"button\" class=\"btn btn-warning\" value=\"*\">&times;</button>\
+    \ <!-- Multiplication moved up -->\n        </div>\n        <div class=\"calculator-row\">\n          <button type=\"\
+    button\" class=\"btn btn-info\" value=\"1\">1</button>\n          <button type=\"button\" class=\"btn btn-info\" value=\"\
+    2\">2</button>\n          <button type=\"button\" class=\"btn btn-info\" value=\"3\">3</button>\n          <button type=\"\
+    button\" class=\"btn btn-warning\" value=\"-\">-</button> <!-- Subtraction moved up -->\n        </div>\n        <div\
+    \ class=\"calculator-row\">\n          <button type=\"button\" class=\"btn btn-info btn-block\" value=\"0\">0</button>\n\
+    \          <button type=\"button\" class=\"btn btn-info\" value=\"C\">C</button>\n          <button type=\"button\" class=\"\
+    btn btn-danger\" value=\"=\">=</button>\n          <button type=\"button\" class=\"btn btn-warning\" value=\"+\">+</button>\
+    \ <!-- Addition moved up -->\n        </div>\n      </div>\n    </div>\n  </div>\n  <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"\
+    ></script>\n  <script src=\"script.js\"></script>\n</body>\n</html>\n```\n\n**public/script.js**\n```\n$(document).ready(function()\
+    \ {\n  let operation = '';\n\n  $('.calculator-keys button').on('click', function() {\n    let buttonValue = $(this).val();\n\
+    \    let displayValue = $('#display').val();\n\n    if (buttonValue === 'C') {\n      $('#display').val('');\n      operation\
+    \ = '';\n    } else if (buttonValue === '=') {\n      $.ajax({\n        url: '/calculate',\n        method: 'POST',\n\
+    \        contentType: 'application/json',\n        data: JSON.stringify({ expression: operation }),\n        success:\
+    \ function(response) {\n          $('#display').val(response.result);\n          operation = response.result.toString();\n\
+    \        },\n        error: function(xhr) {\n          $('#display').val('Error');\n          operation = '';\n      \
+    \  }\n      });\n    } else {\n      operation += buttonValue;\n      $('#display').val(displayValue + buttonValue);\n\
+    \    }\n  });\n});\n```\n\n**public/styles.css**\n```\nbody {\n  min-height: 100vh;\n  display: flex;\n  flex-direction:\
+    \ column;\n  justify-content: center;\n}\n\n.calculator {\n  width: 300px;\n  margin: auto;\n}\n\n.calculator-screen {\n\
+    \  width: 100%;\n  height: 80px;\n  text-align: right;\n  padding-right: 20px;\n  margin-bottom: 10px;\n  font-size: 3rem;\n\
+    \  border: 2px solid #ccc;\n}\n\n.calculator-row {\n  display: flex;\n}\n\n.calculator-keys button {\n  flex: 1;\n  height:\
+    \ 70px;\n  font-size: 2rem;\n  margin: 2px;\n}\n\n.btn-block {\n  flex: 2;\n}\n```\n\n**/README.md**\n```\n# Calculator\
+    \ App\n\nThis project is a web-based calculator that allows users to perform the four basic arithmetic operations: addition,\
+    \ subtraction, multiplication, and division. It is built using Node.js and Express for the backend, with a frontend using\
+    \ Bootstrap for styling, and jQuery for interactivity.\n\n## Features\n\n- Simple and intuitive UI\n- Perform basic mathematics\
+    \ operations: addition, subtraction, multiplication, division\n- Responsive design for various screen sizes\n\n## Technologies\
+    \ Used\n\n- Node.js\n- Express\n- Bootstrap\n- HTML\n- CSS3\n- jQuery\n\n## Project Structure\n\n- `package.json`: Defines\
+    \ npm dependencies and scripts.\n- `index.js`: Main server file that sets up the Express server.\n- `public/index.html`:\
+    \ Entry point for the frontend, contains the markup for the calculator.\n- `public/script.js`: Handles the calculator's\
+    \ logic and UI interactions.\n- `public/styles.css`: Contains styles for the calculator's interface.\n\n## Setup\n\n1.\
+    \ Clone the repository\n2. Run `npm install` to install the dependencies.\n3. Start the server with `node index.js`.\n\
+    4. Open `http://localhost:3000` in your browser to use the calculator.\n\n## License\n\nThis project is licensed under\
+    \ the ISC license.\n\n## Contributing\n\nContributions to the Calculator app are welcome. Please ensure that your code\
+    \ adheres to the existing style and has appropriate test coverage. For major changes, please open an issue first to discuss\
+    \ what you would like to change.\n\nPlease make sure to update tests as appropriate.\n```\n\n\nDO NOT specify commands\
+    \ to create any folders or files, they will be created automatically - just specify the relative path to file that needs\
+    \ to be written.\n\nNow, based on the project details provided, think step by step and create README.md file for this\
+    \ project."
+- role: user
+  content: "**IMPORTANT**\nYou must respond with ONLY the JSON object, with NO additional text or explanation.\n\nHere is\
+    \ the schema for the expected JSON object:\n```json\n{\n    \"name\": {\n        \"type\": \"string\",\n        \"description\"\
+    : \"Name of the documentation file that needs to be saved on the disk.\"\n    },\n    \"path\": {\n        \"type\": \"\
+    string\",\n        \"description\": \"Relative path of the documentation file with the file name that needs to be saved.\"\
+    \n    },\n    \"content\": {\n        \"type\": \"string\",\n        \"description\": \"Full content of the documentation\
+    \ file that needs to be saved on the disk.\"\n    }\n}\n```\n\n"
+response: "```json\n{\n    \"name\": \"README.md\",\n    \"path\": \"/README.md\",\n    \"content\": \"# Calculator App\\\
+  n\\nThis project is a web-based calculator that allows users to perform the four basic arithmetic operations: addition,\
+  \ subtraction, multiplication, and division. It is built using Node.js and Express for the backend, with a frontend utilizing\
+  \ Bootstrap for styling, and jQuery for scripting and event handling.\\n\\n## Features\\n\\n- Simple and intuitive user\
+  \ interface.\\n- Perform basic mathematics operations: addition, subtraction, multiplication, division.\\n- Responsive design\
+  \ that works well on desktop and mobile.\\n\\n## Technologies Used\\n\\n- Node.js\\n- Express\\n- Bootstrap\\n- HTML\\n-\
+  \ CSS3\\n- jQuery\\n\\n## Project Structure\\n\\n- `/package.json`: Configuration and dependency details.\\n- `/index.js`:\
+  \ Sets up the Express server and calculation endpoint.\\n- `/public/index.html`: The HTML document of the calculator interface.\\\
+  n- `/public/script.js`: JavaScript file to manage front-end interactions and AJAX requests to the server.\\n- `/public/styles.css`:\
+  \ Stylesheet for customizing the look and feel of the application.\\n\\n## Setup\\n\\nTo set up the application:\\n\\n1.\
+  \ Clone the repository to your local machine.\\n2. Navigate to the project directory.\\n3. Install the required node modules\
+  \ by running `npm install`.\\n4. Launch the application using `node index.js`.\\n5. Access the calculator interface via\
+  \ `http://localhost:3000` in your web browser.\\n\\n## Usage\\n\\nTo use the calculator:\\n\\n1. Open the calculator interface\
+  \ in a web browser.\\n2. Click on the calculator buttons to input your mathematical expression.\\n3. Press the '=' button\
+  \ to calculate and display the result.\\n\\n## License\\n\\nThis project is open-sourced under the ISC license. See the\
+  \ LICENSE file for details.\\n\\n## Contributing\\n\\nContributions to this calculator project are welcome. To contribute:\\\
+  n\\n1. Fork the repository.\\n2. Create a new branch for your feature or fix.\\n3. Commit changes to your branch.\\n4. Push\
+  \ to your fork and submit a pull request.\\n\\nBefore contributing, please ensure your code conforms to the project's coding\
+  \ conventions and write necessary tests if applicable. For significant changes, please open an issue first to discuss the\
+  \ proposed changes.\\n\\nWe appreciate your efforts in improving the Calculator app.\\n\\n## Contact\\n\\nFor questions\
+  \ and feedback related to this project, please reach out to the project maintainers.\"\n}\n```"

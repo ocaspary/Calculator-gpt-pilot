@@ -1,0 +1,37 @@
+{
+  "endpoint": "OPENAI",
+  "model": "gpt-4-1106-preview",
+  "functions": [
+    {
+      "name": "get_documentation_file",
+      "description": "Gets the full content of requested documentation file.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the documentation file that needs to be saved on the disk."
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path of the documentation file with the file name that needs to be saved."
+          },
+          "content": {
+            "type": "string",
+            "description": "Full content of the documentation file that needs to be saved on the disk."
+          }
+        },
+        "required": [
+          "name",
+          "path",
+          "content"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "name": "README.md",
+    "path": "/README.md",
+    "content": "# Calculator App\n\nThis project is a web-based calculator that allows users to perform the four basic arithmetic operations: addition, subtraction, multiplication, and division. It is built using Node.js and Express for the backend, with a frontend using Bootstrap for styling, and jQuery for interactivity.\n\n## Features\n\n- Simple and intuitive UI\n- Perform basic mathematics operations: addition, subtraction, multiplication, division\n- Responsive design for various screen sizes\n\n## Technologies Used\n\n- Node.js\n- Express\n- Bootstrap\n- HTML\n- CSS3\n- jQuery\n\n## Project Structure\n\n- `package.json`: Defines npm dependencies and scripts.\n- `index.js`: Main server file that sets up the Express server.\n- `public/index.html`: Entry point for the frontend, contains the markup for the calculator.\n- `public/script.js`: Handles the calculator's logic and UI interactions.\n- `public/styles.css`: Contains styles for the calculator's interface.\n\n## Setup\n\n1. Clone the repository\n2. Run `npm install` to install the dependencies.\n3. Start the server with `node index.js`.\n4. Open `http://localhost:3000` in your browser to use the calculator.\n\n## License\n\nThis project is licensed under the ISC license.\n\n## Contributing\n\nContributions to the Calculator app are welcome. Please ensure that your code adheres to the existing style and has appropriate test coverage. For major changes, please open an issue first to discuss what you would like to change.\n\nPlease make sure to update tests as appropriate."
+  }
+}

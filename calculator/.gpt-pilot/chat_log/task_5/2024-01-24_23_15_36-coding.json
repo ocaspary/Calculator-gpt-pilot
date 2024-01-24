@@ -1,0 +1,37 @@
+{
+  "endpoint": "OPENAI",
+  "model": "gpt-4-1106-preview",
+  "functions": [
+    {
+      "name": "get_documentation_file",
+      "description": "Gets the full content of requested documentation file.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the documentation file that needs to be saved on the disk."
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path of the documentation file with the file name that needs to be saved."
+          },
+          "content": {
+            "type": "string",
+            "description": "Full content of the documentation file that needs to be saved on the disk."
+          }
+        },
+        "required": [
+          "name",
+          "path",
+          "content"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "name": "README.md",
+    "path": "/README.md",
+    "content": "# Calculator App\n\nThis project is a web-based calculator that allows users to perform the four basic arithmetic operations: addition, subtraction, multiplication, and division. It is built using Node.js and Express for the backend, with a frontend utilizing Bootstrap for styling, and jQuery for scripting and event handling.\n\n## Features\n\n- Simple and intuitive user interface.\n- Perform basic mathematics operations: addition, subtraction, multiplication, division.\n- Responsive design that works well on desktop and mobile.\n\n## Technologies Used\n\n- Node.js\n- Express\n- Bootstrap\n- HTML\n- CSS3\n- jQuery\n\n## Project Structure\n\n- `/package.json`: Configuration and dependency details.\n- `/index.js`: Sets up the Express server and calculation endpoint.\n- `/public/index.html`: The HTML document of the calculator interface.\n- `/public/script.js`: JavaScript file to manage front-end interactions and AJAX requests to the server.\n- `/public/styles.css`: Stylesheet for customizing the look and feel of the application.\n\n## Setup\n\nTo set up the application:\n\n1. Clone the repository to your local machine.\n2. Navigate to the project directory.\n3. Install the required node modules by running `npm install`.\n4. Launch the application using `node index.js`.\n5. Access the calculator interface via `http://localhost:3000` in your web browser.\n\n## Usage\n\nTo use the calculator:\n\n1. Open the calculator interface in a web browser.\n2. Click on the calculator buttons to input your mathematical expression.\n3. Press the '=' button to calculate and display the result.\n\n## License\n\nThis project is open-sourced under the ISC license. See the LICENSE file for details.\n\n## Contributing\n\nContributions to this calculator project are welcome. To contribute:\n\n1. Fork the repository.\n2. Create a new branch for your feature or fix.\n3. Commit changes to your branch.\n4. Push to your fork and submit a pull request.\n\nBefore contributing, please ensure your code conforms to the project's coding conventions and write necessary tests if applicable. For significant changes, please open an issue first to discuss the proposed changes.\n\nWe appreciate your efforts in improving the Calculator app.\n\n## Contact\n\nFor questions and feedback related to this project, please reach out to the project maintainers."
+  }
+}

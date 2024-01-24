@@ -1,0 +1,153 @@
+{
+  "endpoint": "OPENAI",
+  "model": "gpt-4-1106-preview",
+  "functions": [
+    {
+      "name": "parse_development_task",
+      "description": "Breaks down the development task into smaller steps that need to be done to implement the entire task.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "description": "List of smaller development steps that need to be done to complete the entire task.",
+            "items": {
+              "type": "object",
+              "description": "A smaller development step that needs to be done to complete the entire task.  Remember, if you need to run a command that doesn't finish by itself (eg. a command to run an  If you need to create a directory that doesn't exist and is not the root project directory, always create it by running a command `mkdir`",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "command",
+                    "save_file",
+                    "modify_file",
+                    "human_intervention"
+                  ],
+                  "description": "Type of the development step that needs to be done to complete the entire task."
+                },
+                "command": {
+                  "type": "object",
+                  "description": "Command that needs to be run to complete the current task. This should be used only if the task is of a type \"command\".",
+                  "properties": {
+                    "command": {
+                      "type": "string",
+                      "description": "A single command that needs to be executed."
+                    },
+                    "timeout": {
+                      "type": "number",
+                      "description": "Timeout in milliseconds that represent the approximate time this command takes to finish. If you need to run a command that doesnt't finish by itself (eg. a command to run an app), set the timeout to to a value long enough to determine that it has started successfully and provide a command_id. If you need to create a directory that doesn't exist and is not the root project directory, always create it by running a command `mkdir`"
+                    },
+                    "success_message": {
+                      "type": "string",
+                      "description": "A message to look for in the output of the command to determine if successful or not."
+                    },
+                    "command_id": {
+                      "type": "string",
+                      "description": "If the process needs to continue running after the command is executed provide a unique command identifier which you can use to kill the process later."
+                    }
+                  },
+                  "required": [
+                    "command",
+                    "timeout"
+                  ]
+                },
+                "save_file": {
+                  "type": "object",
+                  "description": "A file that needs to be created or file that needs to be completely replaced. This should be used for new files.",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the file that needs to be created or replaced."
+                    },
+                    "path": {
+                      "type": "string",
+                      "description": "Full path of the file (with the file name) that needs to be created or replaced."
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "Full content of the file that needs to be implemented. Remember, you MUST NOT omit any of the content that should go into this file."
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "path",
+                    "content"
+                  ]
+                },
+                "modify_file": {
+                  "type": "object",
+                  "description": "A file that should be modified. This should only be used for existing files.",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the existing file that needs to be updated."
+                    },
+                    "path": {
+                      "type": "string",
+                      "description": "Full path of the file with the file name that needs to be updated."
+                    },
+                    "code_change_description": {
+                      "type": "string",
+                      "description": "Detailed description, with code snippets and any relevant context/explanation, of the changes that the developer should do."
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "path",
+                    "code_change_description"
+                  ]
+                },
+                "human_intervention_description": {
+                  "type": "string",
+                  "description": "Description of a step in debugging this issue when there is a human intervention needed. This should be used only if the task is of a type \"human_intervention\"."
+                }
+              },
+              "required": [
+                "type"
+              ]
+            }
+          }
+        },
+        "required": [
+          "tasks"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "tasks": [
+      {
+        "type": "save_file",
+        "save_file": {
+          "name": "index.html",
+          "path": "/public/index.html",
+          "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Calculator</title>\n  <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\">\n  <link rel=\"stylesheet\" href=\"styles.css\">\n</head>\n<body>\n  <div class=\"container\">\n    <h2 class=\"text-center mt-4\">Calculator</h2>\n    <div id=\"calculator\" class=\"calculator\">\n      <input type=\"text\" id=\"display\" class=\"calculator-screen\" disabled>\n      <div class=\"calculator-keys\">\n        \n        <button type=\"button\" class=\"btn btn-info\" value=\"7\">7</button>\n        <button type=\"button\" class=\"btn btn-info\" value=\"8\">8</button>\n        <button type=\"button\" class=\"btn btn-info\" value=\"9\">9</button>\n        <button type=\"button\" class=\"btn btn-warning\" value=\"+\">+</button>\n\n        <button type=\"button\" class=\"btn btn-info\" value=\"4\">4</button>\n        <button type=\"button\" class=\"btn btn-info\" value=\"5\">5</button>\n        <button type=\"button\" class=\"btn btn-info\" value=\"6\">6</button>\n        <button type=\"button\" class=\"btn btn-warning\" value=\"-\">-</button>\n\n        <button type=\"button\" class=\"btn btn-info\" value=\"1\">1</button>\n        <button type=\"button\" class=\"btn btn-info\" value=\"2\">2</button>\n        <button type=\"button\" class=\"btn btn-info\" value=\"3\">3</button>\n        <button type=\"button\" class=\"btn btn-warning\" value=\"*\">&times;</button>\n\n        <button type=\"button\" class=\"btn btn-info\" value=\"0\">0</button>\n        <button type=\"button\" class=\"btn btn-danger\" value=\"C\">C</button>\n        <button type=\"button\" class=\"btn btn-info\" value=\"=\">=</button>\n        <button type=\"button\" class=\"btn btn-warning\" value=\"/\">&divide;</button>\n        \n      </div>\n    </div>\n  </div>\n  <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>\n  <script src=\"script.js\"></script>\n</body>\n</html>"
+        }
+      },
+      {
+        "type": "save_file",
+        "save_file": {
+          "name": "styles.css",
+          "path": "/public/styles.css",
+          "content": "body {\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n\n.calculator {\n  width: 300px;\n  margin: auto;\n}\n\n.calculator-screen {\n  width: 100%;\n  height: 80px;\n  text-align: right;\n  padding-right: 20px;\n  margin-bottom: 10px;\n  font-size: 3rem;\n  border: 2px solid #ccc;\n}\n\n.calculator-keys button {\n  width: 70px;\n  height: 70px;\n  font-size: 2rem;\n  margin: 5px;\n}"
+        }
+      },
+      {
+        "type": "save_file",
+        "save_file": {
+          "name": "script.js",
+          "path": "/public/script.js",
+          "content": "$(document).ready(function() {\n  $('.calculator-keys button').on('click', function() {\n    let buttonValue = $(this).val();\n    let displayValue = $('#display').val();\n\n    if (buttonValue === 'C') {\n      $('#display').val('');\n    } else if (buttonValue === '=') {\n      // This logic will be implemented in another task (Task #4 and #5)\n      // For now, just clear the display\n      $('#display').val('');\n    } else {\n      $('#display').val(displayValue + buttonValue);\n    }\n  });\n});"
+        }
+      },
+      {
+        "type": "modify_file",
+        "modify_file": {
+          "name": "index.js",
+          "path": "/index.js",
+          "code_change_description": "Add a line to serve static files from the 'public' directory. Add the following code after your existing Express app setup:\n\n// Serve static files from the \"public\" directory\napp.use(express.static('public'));\n"
+        }
+      }
+    ]
+  }
+}
